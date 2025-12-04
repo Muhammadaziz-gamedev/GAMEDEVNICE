@@ -501,9 +501,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9fe6f40efddf0b64fb68a3382b14a4db, type: 3}
   _gameoverText: {fileID: 1842689378}
   _restartText: {fileID: 504719778}
-  _ammocountText: {fileID: 60224154}
+  _ammoCountText: {fileID: 60224154}
   _completed: {fileID: 1235372490}
-  _bosswave: {fileID: 2080335575}
+  _bossWave: {fileID: 2080335575}
 --- !u!1001 &298382507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1083,7 +1083,7 @@ MonoBehaviour:
   _bruhPrefab: {fileID: 9005517236983712900, guid: 5ac8c761b23144855beb97cef62407f8, type: 3}
   _lives: 3
   _shieldActive: 0
-  _livesshield: 3
+  _livesShield: 3
   _shieldVisual: {fileID: 2089022041}
   _leftEngine: {fileID: 1453695536}
   _rightEngine: {fileID: 1265908378}
@@ -2152,11 +2152,11 @@ MonoBehaviour:
   _bossPrefab: {fileID: 7672124139072472216, guid: 08d2c3b1480054c56a885d7996994295, type: 3}
   _bossSpawnPoint: {fileID: 1465419940}
   _stopSpawning: 0
-  _bossdestroyed: 0
+  _bossDestroyed: 0
   _waveCount: 0
   weights: 00000000010000000200000003000000040000000500000006000000
-  _alienbossprefab: {fileID: 6767274023047437221, guid: 1a4531448bb3d485a8bfd0ef20df35ef, type: 3}
-  _alienbossposition: {fileID: 7760113403207510454, guid: 1a4531448bb3d485a8bfd0ef20df35ef, type: 3}
+  _alienBossPrefab: {fileID: 0}
+  _alienBossPosition: {fileID: 0}
 --- !u!4 &1525295605
 Transform:
   m_ObjectHideFlags: 0
