@@ -4,11 +4,11 @@ using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private Text _scoreText;
-    [SerializeField] 
+    [SerializeField]
     private Image _livesImage;
-    [SerializeField] 
+    [SerializeField]
     private Sprite[] _liveSprites;
     [SerializeField]
     private Text _gameoverText;
@@ -26,22 +26,21 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-        if(spawnManager == null) Debug.Log("spawnmanager is null");
+        if (spawnManager == null) Debug.Log("spawnmanager is null");
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (_gameManager == null)
             Debug.LogError("GameManager is NULL! Attach GameManager to a GameObject in the scene.");
         _gameoverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
     }
-
-    public void boss()
+    public void Boss()
     {
-    if(spawnManager._waveCount == 5)
+        if (spawnManager._waveCount == 5)
         {
             _bossWave.gameObject.SetActive(true);
             StartCoroutine(BosswaveFlickerRoutine());
         }
-    if(spawnManager._bossDestroyed == true && spawnManager._stopSpawning == true)
+        if (spawnManager._bossDestroyed == true && spawnManager._stopSpawning == true)
         {
             _completed.gameObject.SetActive(true);
         }
@@ -59,9 +58,11 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLives(int currentLives)
     {
-    if (currentLives >= 0 && currentLives < _liveSprites.Length)
-        _livesImage.sprite = _liveSprites[currentLives];
-    if (currentLives == 0)
+        if (currentLives >= 0 && currentLives < _liveSprites.Length)
+        {
+            _livesImage.sprite = _liveSprites[currentLives];
+        }
+        if (currentLives == 0)
         {
             _gameoverText.gameObject.SetActive(true);
             _restartText.gameObject.SetActive(true);
@@ -72,7 +73,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator GameOverFlickerRoutine()
     {
-    while (true)
+        while (true)
         {
             _gameoverText.text = "GAME OVER";
             yield return new WaitForSeconds(0.5f);
@@ -82,7 +83,7 @@ public class UIManager : MonoBehaviour
     }
     private IEnumerator BosswaveFlickerRoutine()
     {
-    while (true)
+        while (true)
         {
             _bossWave.text = _bossWave.text;
             yield return new WaitForSeconds(0.5f);

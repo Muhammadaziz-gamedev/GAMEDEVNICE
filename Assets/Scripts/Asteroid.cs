@@ -9,15 +9,18 @@ public class Asteroid : MonoBehaviour
     private GameObject _explosionPrefab;
     private SpawnManager _spawnManager;
 
+    private void Awake()
+    {
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+    }
     void Update()
     {
         transform.Rotate(Vector3.forward * _rotateSpeed * Time.deltaTime);
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Boss"))
+        if (other.CompareTag("Boss"))
         {
             return;
         }
@@ -29,4 +32,4 @@ public class Asteroid : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-}     
+}

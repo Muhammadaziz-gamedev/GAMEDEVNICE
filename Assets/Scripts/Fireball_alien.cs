@@ -5,36 +5,36 @@ using UnityEngine;
 public class Fireball_alien : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float _speed =4f;
+    public float _speed = 4f;
     public float _chaseTime = 3f;
     private bool chasing = true;
     private float _timer = 0f;
-    public Transform target;
-    
+    public Transform _target;
+
     void Start()
     {
-        if(target == null)
+        if (_target == null)
         {
-            target = GameObject.FindWithTag("Player").transform;
+            _target = GameObject.FindWithTag("Player").transform;
         }
     }
-    
+
     void Update()
     {
-    _timer += Time.deltaTime;
-        if(_timer <= _chaseTime)
+        _timer += Time.deltaTime;
+        if (_timer <= _chaseTime)
         {
             chasing = true;
         }
         else
         {
-            stopchase();
+            StopChase();
         }
-        if(chasing)
+        if (chasing)
         {
-            Vector3 chase = (target.position - transform.position).normalized;
+            Vector3 chase = (_target.position - transform.position).normalized;
             transform.up = chase;
-            transform.position += chase * _speed* Time.deltaTime;
+            transform.position += chase * _speed * Time.deltaTime;
         }
         else
         {
@@ -42,14 +42,14 @@ public class Fireball_alien : MonoBehaviour
         }
     }
 
-    void stopchase()
+    void StopChase()
     {
         chasing = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             Destroy(this.gameObject);
             other.GetComponent<Player>().Damage();

@@ -9,12 +9,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 3.5f;
     private float _shift = 9.5f;
-    public bool _isslow = false;
+    [SerializeField] public bool _isSlow = false;
     private float _slowMultiplier;
     private float _normalSpeed;
     [SerializeField]
     private float _speedMultiplier = 2f;
-
     [Header("Laser & PowerUps")]
     [SerializeField]
     private GameObject _laserPrefab;
@@ -23,7 +22,7 @@ public class Player : MonoBehaviour
     private GameObject _tripleShotPrefab;
     [SerializeField]
     private GameObject _bruhPrefab;
-    private bool _isUnusuallaserActive =false;
+    private bool _isUnusualLaserActive = false;
     private bool _isTripleShotActive = false;
 
     [Header("Lives & Shield")]
@@ -78,7 +77,7 @@ public class Player : MonoBehaviour
     private GameObject _explosion;
     private Cam_shake _camera;
     private bool _minusPowerUp;
-    private bool _isProjectileLaser =false;
+    private bool _isProjectileLaser = false;
     void Start()
     {
         _camera = Camera.main.GetComponent<Cam_shake>();
@@ -100,7 +99,7 @@ public class Player : MonoBehaviour
         {
             Shoot();
         }
-        canShift();
+        CanShift();
     }
 
     void HandleMovement()
@@ -126,17 +125,17 @@ public class Player : MonoBehaviour
             _canFire = Time.time + _fireRate;
             _ammoCount--;
             _uiManager.UpdateAmmo(_ammoCount);
-            if(_isProjectileLaser)
+            if (_isProjectileLaser)
             {
-                _laserPrefab.GetComponent<Laser>().assignprojectilelaser();
+                _laserPrefab.GetComponent<Laser>().AssignProjectileLaser();
             }
-            if (_isUnusuallaserActive)
+            if (_isUnusualLaserActive)
             {
-            GameObject unusualLaser = Instantiate(_bruhPrefab, transform.position, Quaternion.identity);
-            Laser laser = unusualLaser.GetComponent<Laser>();
-            if (laser != null) laser.assignunusuallaser();
+                GameObject unusualLaser = Instantiate(_bruhPrefab, transform.position, Quaternion.identity);
+                Laser laser = unusualLaser.GetComponent<Laser>();
+                if (laser != null) laser.AssignUnusualLaser();
             }
-            else if(_isTripleShotActive)
+            else if (_isTripleShotActive)
             {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
             }
@@ -152,9 +151,9 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         _camera.Shake(0.5f, 0.4f);
-    if (_shieldActive)
-    {
-        _livesShield--;
+        if (_shieldActive)
+        {
+            _livesShield--;
             if (_livesShield == 2)
             {
                 _shieldVisual.SetActive(false);
@@ -174,7 +173,7 @@ public class Player : MonoBehaviour
                 _shieldActive = false;
             }
             return;
-    }
+        }
         _lives--;
         if (_uiManager != null)
             _uiManager.UpdateLives(_lives);
@@ -183,11 +182,11 @@ public class Player : MonoBehaviour
         if (_lives < 1)
         {
             if (_audioSource != null)
-            _normalSpeed = 0;
+                _normalSpeed = 0;
             Instantiate(_explosion, transform.position, Quaternion.identity);
             _audioSource.PlayOneShot(_explosionSound);
             _spawnManager.OnPlayerDeath();
-            Destroy(gameObject, 0.99f); 
+            Destroy(gameObject, 0.99f);
         }
     }
 
@@ -195,24 +194,24 @@ public class Player : MonoBehaviour
     {
         if (_audioSource != null)
             _audioSource.PlayOneShot(_powerUpSound);
-        _isUnusuallaserActive = false;
+        _isUnusualLaserActive = false;
         _isTripleShotActive = true;
         StartCoroutine(TripleShotRoutine());
     }
 
-    public void unusuallaseractive()
+    public void UnusualLaserActive()
     {
         if (_audioSource != null)
             _audioSource.PlayOneShot(_powerUpSound);
         _isTripleShotActive = false;
-        _isUnusuallaserActive = true;
+        _isUnusualLaserActive = true;
         StartCoroutine(UnusuallaserRoutine());
     }
 
     IEnumerator UnusuallaserRoutine()
     {
         yield return new WaitForSeconds(5f);
-        _isUnusuallaserActive = false;
+        _isUnusualLaserActive = false;
     }
 
     public void AddAmmo(int ammo)
@@ -221,23 +220,23 @@ public class Player : MonoBehaviour
         _ammoCount = ammo + 15;
     }
 
-    public void Addhealth()
+    public void AddHealth()
     {
         if (_audioSource != null) _audioSource.PlayOneShot(_powerUpSound);
         _lives++;
-        if(_uiManager != null)
+        if (_uiManager != null)
         {
             _uiManager.UpdateLives(_lives);
         }
     }
 
-    public void projectilemove()
+    public void ProjectileMove()
     {
         _isProjectileLaser = true;
-        StartCoroutine(projectilemoveRoutine());
+        StartCoroutine(ProjectileMoveRoutine());
     }
 
-    IEnumerator projectilemoveRoutine()
+    IEnumerator ProjectileMoveRoutine()
     {
         yield return new WaitForSeconds(5f);
         _isProjectileLaser = false;
@@ -258,13 +257,13 @@ public class Player : MonoBehaviour
         StartCoroutine(SpeedBoostRoutine());
     }
 
-    public void minuspowerup()
+    public void MinusPowerUp()
     {
         if (_audioSource != null)
-        _audioSource.PlayOneShot(_powerUpSound);
+            _audioSource.PlayOneShot(_powerUpSound);
         _minusPowerUp = true;
-            _normalSpeed = 0;
-            StartCoroutine(minuspowerupRoutine());
+        _normalSpeed = 0;
+        StartCoroutine(minuspowerupRoutine());
     }
 
     IEnumerator minuspowerupRoutine()
@@ -295,12 +294,17 @@ public class Player : MonoBehaviour
     {
         _score += points;
         if (_uiManager != null)
+        {
             _uiManager.UpdateScore(_score);
+        }
         else
+        {
             Debug.LogError("UIManager is NULL! Cannot update score.");
+        }
+
     }
 
-    private void canShift()
+    private void CanShift()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > _canShift)
         {
@@ -317,19 +321,19 @@ public class Player : MonoBehaviour
             _isShifting = false;
         }
     }
-    
-    public void sloweffect()
+
+    public void SlowEffect()
     {
-        if (_isslow == false) return;
-        _isslow = true;
+        if (_isSlow == false) return;
+        _isSlow = true;
         _normalSpeed *= _slowMultiplier;
         StartCoroutine(Slowroutine());
     }
-    
+
     IEnumerator Slowroutine()
     {
         yield return new WaitForSeconds(3.0f);
-        _isslow = false;
+        _isSlow = false;
         _normalSpeed = _speed;
     }
 }

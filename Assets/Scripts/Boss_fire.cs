@@ -8,16 +8,18 @@ public class Boss_fire : MonoBehaviour
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime, Space.World);
         if (transform.position.y < -6f)
+        {
             Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Boss"))
+        if (other.CompareTag("Boss"))
         {
             return;
         }
-        if(other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             return;
         }
@@ -27,7 +29,7 @@ public class Boss_fire : MonoBehaviour
             if (player != null)
             {
                 player.Damage();
-                player.sloweffect();
+                player.SlowEffect();
             }
             Destroy(gameObject);
         }

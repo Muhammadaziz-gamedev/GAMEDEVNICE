@@ -4,7 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour  
+public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 3f;
     private Player _player;
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     private float _normalSpeed = 3f;
     private bool _isRamming = false;
     private float _runDistance = 3f;
-    private float _runSpeed= 5f;
+    private float _runSpeed = 5f;
     private bool _isRunning = false;
     private float _canFirePowerUpLaser = 0f;
 
@@ -46,13 +46,13 @@ public class Enemy : MonoBehaviour
         }
         if (_player == null)
             return;
-        if(_isRunning == true)
+        if (_isRunning == true)
         {
-            running();
+            Running();
         }
-        if(_isRamming == true)
+        if (_isRamming == true)
         {
-            ramming();
+            Ramming();
         }
         Move();
         Shoot();
@@ -66,9 +66,9 @@ public class Enemy : MonoBehaviour
             GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
             Laser laserScript = enemyLaser.GetComponent<Laser>();
             if (transform.position.y > _player.transform.position.y)
-                laserScript.assignenemylaser();
+                laserScript.AssignEnemyLaser();
             else
-                laserScript.assignplayerbehind();
+                laserScript.AssignPlayerBehind();
         }
     }
     void Move()
@@ -85,24 +85,24 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
             NotifyDestroyed();
         }
-    PowerUp[] powerUps = FindObjectsOfType<PowerUp>();
+        PowerUp[] powerUps = FindObjectsOfType<PowerUp>();
         foreach (PowerUp powerup in powerUps)
         {
             if (Mathf.Abs(transform.position.x - powerup.transform.position.x) < 0.5f &&
             powerup.transform.position.y < transform.position.y)
+            {
+                if (_canFirePowerUpLaser <= Time.time)
                 {
-                    if (_canFirePowerUpLaser <= Time.time)
-                    {
-                        GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-                        Laser laserScript = enemyLaser.GetComponent<Laser>();
-                        laserScript.assignenemylaser();
-                        _canFirePowerUpLaser = Time.time + 1f; // 1 second cooldown so it doesn't spam
-                    }
+                    GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+                    Laser laserScript = enemyLaser.GetComponent<Laser>();
+                    laserScript.AssignEnemyLaser();
+                    _canFirePowerUpLaser = Time.time + 1f; // 1 second cooldown so it doesn't spam
                 }
+            }
         }
     }
 
-    public void setshieldtrue()
+    public void SetShieldtrue()
     {
         _isShieldActive = true;
         _enemyShield.SetActive(true);
@@ -133,11 +133,11 @@ public class Enemy : MonoBehaviour
         {
             Laser laser = other.GetComponent<Laser>();
             if (laser == null)
-            return;
-            if (laser._isenemylaser)
-            return;
+                return;
+            if (laser._isEnemyLaser)
+                return;
             if (laser._playerBehind)
-            return;
+                return;
             if (_isShieldActive)
             {
                 _isShieldActive = false;
@@ -174,10 +174,10 @@ public class Enemy : MonoBehaviour
             spawnManager.OnEnemyDestroyed();
     }
 
-    void  ramming()
-    {   
+    void Ramming()
+    {
         float distancetoplayer = Vector3.Distance(transform.position, _player.transform.position);
-        if(distancetoplayer <= _ramDistance)
+        if (distancetoplayer <= _ramDistance)
             _isRamming = true;
         else
         {
@@ -185,30 +185,30 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void running()
+    void Running()
     {
-    Laser[] lasers = FindObjectsOfType<Laser>();
-    foreach (Laser laser in lasers)
-    {
-        if (!laser._isenemylaser)
+        Laser[] lasers = FindObjectsOfType<Laser>();
+        foreach (Laser laser in lasers)
         {
-            float distance = Vector3.Distance(transform.position, laser.transform.position);
-            if (distance <= _runDistance)
+            if (!laser._isEnemyLaser)
             {
-                _speed = _runSpeed;
-                return;
+                float distance = Vector3.Distance(transform.position, laser.transform.position);
+                if (distance <= _runDistance)
+                {
+                    _speed = _runSpeed;
+                    return;
+                }
             }
+            _speed = _normalSpeed;
         }
-    _speed = _normalSpeed;
-    }
     }
 
-    public void isrunningactive()
+    public void IsRunningActive()
     {
         _isRunning = true;
     }
 
-    public void isrammingactive()
+    public void IsRammingActive()
     {
         _isRamming = true;
     }

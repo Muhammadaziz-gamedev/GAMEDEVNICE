@@ -9,7 +9,7 @@ public class Enemyboss : MonoBehaviour
     [SerializeField] private Transform firePoint;
 
     void Start()
-    { 
+    {
         _nextFireTime = Time.time + Random.Range(2f, 3f);
     }
 
@@ -39,7 +39,10 @@ public class Enemyboss : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             var player = other.GetComponent<Player>();
-            if (player != null) player.Damage();
+            if (player != null)
+            {
+                player.Damage();
+            }
             Damage();
         }
         else if (other.CompareTag("Laser"))

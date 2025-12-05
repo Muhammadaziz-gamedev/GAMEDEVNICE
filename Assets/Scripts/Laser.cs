@@ -3,25 +3,26 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    public bool _isenemylaser;
-    public bool _isUnusualLaser;
-    public bool _playerBehind;
-    public bool _isAlienBossLaser;
-    public bool _isProjectileLaser;
+    [SerializeField] public bool _isEnemyLaser;
+    [SerializeField] public bool _isUnusualLaser;
+    [SerializeField] public bool _playerBehind;
+    [SerializeField] public bool _isAlienBossLaser;
+    [SerializeField] public bool _isProjectileLaser;
+
     [SerializeField] private float _speed = 8f;
     private GameObject _enemy;
     private Player _player;
 
     void Start()
     {
-    _enemy = GameObject.FindWithTag("Enemy");
-    _player  = GameObject.FindWithTag("Player").GetComponent<Player>();
-        if(transform.root.CompareTag("Boss"))
+        _enemy = GameObject.FindWithTag("Enemy");
+        _player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        if (transform.root.CompareTag("Boss"))
         {
             _isAlienBossLaser = true;
-            _isProjectileLaser=false;
-            _isenemylaser = false;
-            _isUnusualLaser =false;
+            _isProjectileLaser = false;
+            _isEnemyLaser = false;
+            _isUnusualLaser = false;
         }
     }
 
@@ -29,139 +30,142 @@ public class Laser : MonoBehaviour
     {
         if (_isProjectileLaser)
         {
-            projectilemove();
+            ProjectileMove();
             return;
         }
         if (_isAlienBossLaser)
         {
-            alienbossmove();
+            AlienBossMove();
             return;
         }
-        if (_isenemylaser)
+        if (_isEnemyLaser)
         {
-            Movedown();
+            MoveDown();
             return;
         }
         if (_isUnusualLaser || _playerBehind)
         {
-            Moveup();
+            MoveUp();
             return;
         }
-    Moveup();
+        MoveUp();
     }
 
-    void Moveup()
+    void MoveUp()
     {
-    transform.Translate(Vector3.up * _speed * Time.deltaTime);
+        transform.Translate(Vector3.up * _speed * Time.deltaTime);
         if (transform.position.y > 10f)
             Destroy(this.gameObject);
     }
 
-    void alienbossmove()
+    void AlienBossMove()
     {
-    transform.position += transform.up * _speed * Time.deltaTime;
-        if(transform.position.y < -10f || transform.position.x < -11f || transform.position.x > 11f)
+        transform.position += transform.up * _speed * Time.deltaTime;
+        if (transform.position.y < -10f || transform.position.x < -11f || transform.position.x > 11f)
             Destroy(gameObject);
     }
 
-    void Movedown()
+    void MoveDown()
     {
-    transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);
         if (transform.position.y < -10f)
             Destroy(this.gameObject);
     }
 
-    void projectilemove()
+    void ProjectileMove()
     {
-        if (_enemy == null) 
+        if (_enemy == null)
             return;
         if (_enemy.transform.position == null)
         {
             Debug.Log("bruh position");
             return;
         }
-    Vector3 direction = (_enemy.transform.position - transform.position).normalized;
-    Quaternion look = Quaternion.LookRotation(direction);
-    transform.rotation = Quaternion.Slerp(transform.rotation, look, 5f * Time.deltaTime);
-    transform.Translate(direction * _speed * Time.deltaTime, Space.Self);
+        Vector3 direction = (_enemy.transform.position - transform.position).normalized;
+        Quaternion look = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, look, 5f * Time.deltaTime);
+        transform.Translate(direction * _speed * Time.deltaTime, Space.Self);
     }
 
-    public void assignenemylaser()
+    public void AssignEnemyLaser()
     {
-        _isenemylaser = true;
+        _isEnemyLaser = true;
         _playerBehind = false;
         _isUnusualLaser = false;
     }
 
-    public void assignunusuallaser()
+    public void AssignUnusualLaser()
     {
         _isUnusualLaser = true;
     }
 
-    public void assignplayerbehind()
+    public void AssignPlayerBehind()
     {
-        _isenemylaser = false;
+        _isEnemyLaser = false;
         _isUnusualLaser = false;
         _playerBehind = true;
     }
 
-    public void assignprojectilelaser()
+    public void AssignProjectileLaser()
     {
-        _isenemylaser = false;
+        _isEnemyLaser = false;
         _isUnusualLaser = false;
         _playerBehind = false;
         _isProjectileLaser = true;
     }
 
-    public void assignalienbosslaser()
+    public void AssignAlienBossLaser()
     {
         _isUnusualLaser = false;
         _isProjectileLaser = false;
-        _isenemylaser = false;
+        _isEnemyLaser = false;
         _isAlienBossLaser = true;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-    if (!_isenemylaser && !_playerBehind && !_isUnusualLaser && !_isAlienBossLaser)
+        if (!_isEnemyLaser && !_playerBehind && !_isUnusualLaser && !_isAlienBossLaser)
         {
-            if(other.CompareTag("Boss"))
+            if (other.CompareTag("Boss"))
             {
                 Alien_boss_enemy boss = other.GetComponent<Alien_boss_enemy>();
-                if(boss != null)
+                if (boss != null)
                 {
                     boss.Damage();
                     Destroy(this.gameObject);
                 }
             }
         }
-    if(_isAlienBossLaser && other.CompareTag("Boss"))
-        return;
-    if(_isenemylaser)
-    {
-        if(other.CompareTag("Player"))
+        if (_isAlienBossLaser && other.CompareTag("Boss"))
+            return;
+        if (_isEnemyLaser)
         {
-            Player player = other.GetComponent<Player>();
-            if(player != null) player.Damage();
-            Destroy(this.gameObject);
-        }
-        if(other.CompareTag("PowerUp"))
-        {
-            Destroy(other.gameObject);
-        }
-    }
-        if(_isAlienBossLaser)
-        {
-            if(other.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
-            Player player = other.GetComponent<Player>();
-                if(player != null)
-                    {
+                Player player = other.GetComponent<Player>();
+                if (player != null)
+                {
                     player.Damage();
-                    player._isslow =true;
-                    player.sloweffect();
+                }
+                Destroy(this.gameObject);
+            }
+            if (other.CompareTag("PowerUp"))
+            {
+                Destroy(other.gameObject);
+            }
+        }
+        if (_isAlienBossLaser)
+        {
+            if (other.CompareTag("Player"))
+            {
+                Player player = other.GetComponent<Player>();
+                if (player != null)
+                {
+                    player.Damage();
+                    player._isSlow = true;
+                    player.SlowEffect();
                     Destroy(this.gameObject);
-                    }
+                }
             }
         }
     }

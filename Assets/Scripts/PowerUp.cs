@@ -1,4 +1,4 @@
-﻿    using UnityEngine;
+﻿using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
@@ -10,13 +10,16 @@ public class PowerUp : MonoBehaviour
 
     void Update()
     {
-    _player = FindObjectOfType<Player>();
-    transform.Translate(Vector3.down * _speed * Time.deltaTime);
-    if (transform.position.y < -4.5f) 
-        Destroy(gameObject);
-    if (Input.GetKey(KeyCode.C))
+        _player = FindObjectOfType<Player>();
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (transform.position.y < -4.5f)
         {
-            Vector3 direction= (_player.transform.position - transform.position).normalized;
+            Destroy(gameObject);
+        }
+
+        if (Input.GetKey(KeyCode.C))
+        {
+            Vector3 direction = (_player.transform.position - transform.position).normalized;
             transform.Translate(direction * _speeda * Time.deltaTime);
         }
     }
@@ -25,22 +28,38 @@ public class PowerUp : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-        Player player = other.GetComponent<Player>();
-        AudioSource.PlayClipAtPoint(_clip, transform.position);
+            Player player = other.GetComponent<Player>();
+            AudioSource.PlayClipAtPoint(_clip, transform.position);
             if (player != null)
             {
-            switch (_powerUpID)
+                switch (_powerUpID)
                 {
-                    case 0: player.TripleShotActive(); break;
-                    case 1: player.SpeedBoostActive(); break;
-                    case 2: player.ShieldBoostActive(); break;
-                    case 4: player.AddAmmo(15); break;
-                    case 5: player.Addhealth(); break;
-                    case 6: player.unusuallaseractive(); break;
-                    case 7: player.minuspowerup(); break;
-                    case 8: player.projectilemove(); break;
+                    case 0:
+                        player.TripleShotActive();
+                        break;
+                    case 1:
+                        player.SpeedBoostActive();
+                        break;
+                    case 2:
+                        player.ShieldBoostActive();
+                        break;
+                    case 4:
+                        player.AddAmmo(15);
+                        break;
+                    case 5:
+                        player.AddHealth();
+                        break;
+                    case 6:
+                        player.UnusualLaserActive();
+                        break;
+                    case 7:
+                        player.MinusPowerUp();
+                        break;
+                    case 8:
+                        player.ProjectileMove();
+                        break;
                 }
-            Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
     }
