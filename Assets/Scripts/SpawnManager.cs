@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -29,7 +30,7 @@ public class SpawnManager : MonoBehaviour
     private Transform bossSpawnPoint;
     [SerializeField] private bool stopSpawning = false;
     [SerializeField] private bool bossDestroyed;
-    [SerializeField] private int waveCount = 0;
+    [SerializeField] public int waveCount = 0;
     private int activeEnemies = 0;
     [SerializeField]
     private int[] weights = { 0, 6 };
@@ -93,6 +94,17 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
+
+    public bool IsStopSpawning()
+    {
+        return stopSpawning;
+    }
+
+    public bool IsBossDestroyed()
+    {
+        return bossDestroyed;
+    }
+
 
     private IEnumerator PowerUpSpawnRoutine()
     {

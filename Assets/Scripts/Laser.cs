@@ -100,17 +100,17 @@ public class Laser : MonoBehaviour
 
     void ProjectileMove()
     {
-        if (_enemy == null)
-            return;
-        if (_enemy.transform.position == null)
+        if(_isProjectileLaser && _enemy != null)
         {
-            Debug.Log("bruh position");
-            return;
-        }
         Vector3 direction = (_enemy.transform.position - transform.position).normalized;
         Quaternion look = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, look, 5f * Time.deltaTime);
         transform.Translate(direction * _speed * Time.deltaTime, Space.Self);
+        }
+        else
+        {
+            transform.position += Vector3.up * _speed * Time.deltaTime;
+        }
     }
 
     public void AssignEnemyLaser()

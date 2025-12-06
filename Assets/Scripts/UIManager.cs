@@ -35,12 +35,12 @@ public class UIManager : MonoBehaviour
     }
     public void Boss()
     {
-        if (spawnManager._waveCount == 5)
+        if (spawnManager.waveCount == 5)
         {
             _bossWave.gameObject.SetActive(true);
             StartCoroutine(BosswaveFlickerRoutine());
         }
-        if (spawnManager._bossDestroyed == true && spawnManager._stopSpawning == true)
+        if (spawnManager.IsBossDestroyed() && spawnManager.IsStopSpawning())
         {
             _completed.gameObject.SetActive(true);
         }

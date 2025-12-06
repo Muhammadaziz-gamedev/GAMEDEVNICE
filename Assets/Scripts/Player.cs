@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
     private UIManager uiManager;
     private SpawnManager spawnManager;
     [SerializeField]
-    private float fireRate = 4f;
+    private float fireRate = 0.4f;
     private float canFire = -1f;
     [SerializeField]
     private GameObject thruster;

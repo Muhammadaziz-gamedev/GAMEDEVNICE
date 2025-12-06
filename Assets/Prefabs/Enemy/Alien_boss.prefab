@@ -148,14 +148,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1ef723a7fe44c19b38f6baae830c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  _explosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
-  _iaudioSource: {fileID: 4903326821937254454}
-  _alienBossLaser: {fileID: 8389330949472574384, guid: 9628ceda90c524bc0a1fd5ff5eac751d, type: 3}
-  _isalienBossLaser: 0
-  _explosionPrefab: {fileID: 5090211576954430393, guid: a4ecd9d1a4eeed142b8507c7d066597c, type: 3}
-  _alienFire: {fileID: 8389330949472574384, guid: 9628ceda90c524bc0a1fd5ff5eac751d, type: 3}
-  _chaser: {fileID: 1723154418201099654, guid: 0888207554c604c32a26648dde996cfc, type: 3}
+  speed: 5
+  explosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  alienBossLaser: {fileID: 8389330949472574384, guid: 9628ceda90c524bc0a1fd5ff5eac751d, type: 3}
+  explosionPrefab: {fileID: 5090211576954430393, guid: a4ecd9d1a4eeed142b8507c7d066597c, type: 3}
+  alienFire: {fileID: 1723154418201099654, guid: 0888207554c604c32a26648dde996cfc, type: 3}
+  chaser: {fileID: 1723154418201099654, guid: 0888207554c604c32a26648dde996cfc, type: 3}
 --- !u!82 &4903326821937254454
 AudioSource:
   m_ObjectHideFlags: 0

@@ -21,8 +21,6 @@ public class Alien_boss_enemy : MonoBehaviour
     private bool isAlienBossLaser;
     [SerializeField]
     private GameObject explosionPrefab;
-    [SerializeField]
-    private GameObject alienFire;
     private SpawnManager spawnManager;
     [SerializeField]
     private GameObject chaser;
