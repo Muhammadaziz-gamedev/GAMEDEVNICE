@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class Enemyboss : MonoBehaviour
 {
-    [SerializeField] private float _speed = 0.5f, _amplitude = 1f;
-    [SerializeField] private int _lives = 1;
-    [SerializeField] private GameObject _bossFirePrefab;
+    [SerializeField] 
+    private float _speed = 0.5f, _amplitude = 1f;
+    [SerializeField] 
+    private int _lives = 1;
+    [SerializeField] 
+    private GameObject _bossFirePrefab;
     private float _nextFireTime;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] 
+    private Transform firePoint;
 
     void Start()
     {

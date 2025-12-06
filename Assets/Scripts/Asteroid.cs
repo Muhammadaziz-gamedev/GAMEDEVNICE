@@ -4,18 +4,18 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour
 {
     [SerializeField]
-    private float _rotateSpeed = 3.0f;
+    private float rotateSpeed = 3.0f;
     [SerializeField]
-    private GameObject _explosionPrefab;
-    private SpawnManager _spawnManager;
+    private GameObject explosionPrefab;
+    private SpawnManager spawnManager;
 
     private void Awake()
     {
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
     void Update()
     {
-        transform.Rotate(Vector3.forward * _rotateSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -26,9 +26,9 @@ public class Asteroid : MonoBehaviour
         }
         if (other.CompareTag("Laser"))
         {
-            _spawnManager.StartSpawning();
+            spawnManager.StartSpawning();
             Destroy(other.gameObject);
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

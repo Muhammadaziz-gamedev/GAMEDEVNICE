@@ -3,13 +3,19 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    [SerializeField] public bool _isEnemyLaser;
-    [SerializeField] public bool _isUnusualLaser;
-    [SerializeField] public bool _playerBehind;
-    [SerializeField] public bool _isAlienBossLaser;
-    [SerializeField] public bool _isProjectileLaser;
+    [SerializeField] 
+    private bool _isEnemyLaser;
+    [SerializeField] 
+    private bool _isUnusualLaser;
+    [SerializeField] 
+    private bool _playerBehind;
+    [SerializeField] 
+    private bool _isAlienBossLaser;
+    [SerializeField] 
+    private bool _isProjectileLaser;
 
-    [SerializeField] private float _speed = 8f;
+    [SerializeField] 
+    private float _speed = 8f;
     private GameObject _enemy;
     private Player _player;
 
@@ -49,6 +55,26 @@ public class Laser : MonoBehaviour
             return;
         }
         MoveUp();
+    }
+
+    public bool IsEnemyLaser()
+    {
+        return _isEnemyLaser;
+    }
+
+    public bool IsUnusualLaser()
+    {
+        return _isUnusualLaser;
+    }
+
+    public bool isPlayerBehind()
+    {
+        return _playerBehind;
+    }
+    
+    public bool IsAlienBossLaser()
+    {
+        return _isAlienBossLaser;
     }
 
     void MoveUp()
@@ -162,7 +188,6 @@ public class Laser : MonoBehaviour
                 if (player != null)
                 {
                     player.Damage();
-                    player._isSlow = true;
                     player.SlowEffect();
                     Destroy(this.gameObject);
                 }

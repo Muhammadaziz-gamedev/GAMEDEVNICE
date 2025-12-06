@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,11 @@ using UnityEngine;
 public class Fireball_alien : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float _speed = 4f;
-    public float _chaseTime = 3f;
+    private float _speed = 4f;
+    private float _chaseTime = 3f;
     private bool chasing = true;
     private float _timer = 0f;
-    public Transform _target;
+    private Transform _target;
 
     void Start()
     {

@@ -2,9 +2,12 @@
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private float _speed = 3f;
-    [SerializeField] private int _powerUpID;
-    [SerializeField] private AudioClip _clip;
+    [SerializeField] 
+    private float _speed = 3f;
+    [SerializeField] 
+    private int _powerUpID;
+    [SerializeField] 
+    private AudioClip _clip;
     private Player _player;
     private float _speeda = 6f;
 

@@ -8,36 +8,36 @@ public class SpawnManager : MonoBehaviour
 {
     [Header("Enemies")]
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject enemyPrefab;
     [SerializeField]
-    private GameObject _enemyContainer;
+    private GameObject enemyContainer;
     [SerializeField]
-    private int _enemiesPerWave = 1;
+    private int enemiesPerWave = 1;
     [SerializeField]
-    private float _timeBetweenEnemies = 3;
+    private float timeBetweenEnemies = 3;
     [SerializeField]
-    private float _timeBetweenWaves = 6f;
+    private float timeBetweenWaves = 6f;
     [SerializeField]
-    private GameObject[] _powerUps;
+    private GameObject[] powerUps;
     [SerializeField]
-    private float _powerUpSpawnMin = 5f;
+    private float powerUpSpawnMin = 5f;
     [SerializeField]
-    private float _powerUpSpawnMax = 10f;
+    private float powerUpSpawnMax = 10f;
     [SerializeField]
-    private GameObject _bossPrefab;
+    private GameObject bossPrefab;
     [SerializeField]
-    private Transform _bossSpawnPoint;
-    [SerializeField] public bool _stopSpawning = false;
-    [SerializeField] public bool _bossDestroyed;
-    [SerializeField] public int _waveCount = 0;
-    private int _activeEnemies = 0;
+    private Transform bossSpawnPoint;
+    [SerializeField] private bool stopSpawning = false;
+    [SerializeField] private bool bossDestroyed;
+    [SerializeField] private int waveCount = 0;
+    private int activeEnemies = 0;
     [SerializeField]
     private int[] weights = { 0, 6 };
     private int enemyNumber = 0;
     [SerializeField]
-    private GameObject _alienBossPrefab;
+    private GameObject alienBossPrefab;
     [SerializeField]
-    private Transform _alienBossPosition;
+    private Transform alienBossPosition;
 
     public void StartSpawning()
     {
@@ -48,16 +48,16 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator EnemyWaveSequence()
     {
         yield return new WaitForSeconds(3f);
-        while (!_stopSpawning)
+        while (!stopSpawning)
         {
-            if (_waveCount <= 4)
+            if (waveCount <= 4)
             {
-                _waveCount++;
-                for (int i = 0; i < _enemiesPerWave; i++)
+                waveCount++;
+                for (int i = 0; i < enemiesPerWave; i++)
                 {
                     Vector3 spawnPos = new Vector3(Random.Range(-9f, 9f), 7.70f + Random.Range(-1f, 1f), 0f);
-                    GameObject newEnemy = Instantiate(_enemyPrefab, spawnPos, Quaternion.identity, _enemyContainer.transform);
-                    _activeEnemies++;
+                    GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity, enemyContainer.transform);
+                    activeEnemies++;
                     enemyNumber++;
                     Enemy enemyScript = newEnemy.GetComponent<Enemy>();
                     if (enemyNumber % 3 == 0)
@@ -74,19 +74,19 @@ public class SpawnManager : MonoBehaviour
                         enemyScript.IsRammingActive();
                     }
                 }
-                yield return new WaitUntil(() => _activeEnemies <= 0);
-                _enemiesPerWave++;
-                _timeBetweenEnemies = Mathf.Max(0.5f, _timeBetweenEnemies - 0.2f);
-                yield return new WaitForSeconds(_timeBetweenWaves);
-                if (_waveCount % 2 == 0)
+                yield return new WaitUntil(() => activeEnemies <= 0);
+                enemiesPerWave++;
+                timeBetweenEnemies = Mathf.Max(0.5f, timeBetweenEnemies - 0.2f);
+                yield return new WaitForSeconds(timeBetweenWaves);
+                if (waveCount % 2 == 0)
                 {
                     SpawnBoss();
                 }
-                if (_waveCount == 5)
+                if (waveCount == 5)
                 {
-                    if (_alienBossPrefab != null && _bossSpawnPoint != null)
+                    if (alienBossPrefab != null && bossSpawnPoint != null)
                     {
-                        Instantiate(_alienBossPrefab, _alienBossPosition.position, _alienBossPosition.rotation);
+                        Instantiate(alienBossPrefab, alienBossPosition.position, alienBossPosition.rotation);
                     }
                     yield break;
                 }
@@ -97,21 +97,21 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator PowerUpSpawnRoutine()
     {
         yield return new WaitForSeconds(3f);
-        while (!_stopSpawning)
+        while (!stopSpawning)
         {
             int index = GetWeightIndex();
             Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 7f, 0f);
-            int randomIndex = Random.Range(0, _powerUps.Length);
-            Instantiate(_powerUps[randomIndex], spawnPos, Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(_powerUpSpawnMin, _powerUpSpawnMax));
+            int randomIndex = Random.Range(0, powerUps.Length);
+            Instantiate(powerUps[randomIndex], spawnPos, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(powerUpSpawnMin, powerUpSpawnMax));
         }
     }
 
     private void SpawnBoss()
     {
-        if (_bossPrefab != null && _bossSpawnPoint != null)
+        if (bossPrefab != null && bossSpawnPoint != null)
         {
-            Instantiate(_bossPrefab, _bossSpawnPoint.position, _bossSpawnPoint.rotation);
+            Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation);
         }
         else
         {
@@ -121,18 +121,18 @@ public class SpawnManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        _stopSpawning = true;
+        stopSpawning = true;
     }
 
     public void OnBossDestroyed()
     {
-        _stopSpawning = true;
-        _bossDestroyed = true;
+        stopSpawning = true;
+        bossDestroyed = true;
     }
 
     public void OnEnemyDestroyed()
     {
-        _activeEnemies = Mathf.Max(0, _activeEnemies - 1);
+        activeEnemies = Mathf.Max(0, activeEnemies - 1);
     }
 
     private int GetWeightIndex()

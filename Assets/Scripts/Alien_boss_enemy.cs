@@ -8,29 +8,29 @@ using System.Xml.Serialization;
 public class Alien_boss_enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 5;
-    private float _lives = 5f;
+    private float speed = 5;
+    private float lives = 5f;
     [SerializeField]
-    public AudioClip _explosion;
-    private float _canFire = 3.0f;
-    private float _fireRate = 1.0f;
-    public AudioSource _iaudioSource;
-    private bool _isDead;
+    private AudioClip explosion;
+    private float canFire = 3.0f;
+    private float fireRate = 1.0f;
+    private AudioSource iaudioSource;
+    private bool isDead;
     [SerializeField]
-    private GameObject _alienBossLaser;
-    public bool _isAlienBossLaser;
+    private GameObject alienBossLaser;
+    private bool isAlienBossLaser;
     [SerializeField]
-    private GameObject _explosionPrefab;
+    private GameObject explosionPrefab;
     [SerializeField]
-    private GameObject _alienFire;
+    private GameObject alienFire;
     private SpawnManager spawnManager;
     [SerializeField]
-    private GameObject _chaser;
-    private float _shotCount = 0;
+    private GameObject chaser;
+    private float shotCount = 0;
     void Start()
     {
         Player player = GetComponent<Player>();
-        _iaudioSource = GetComponent<AudioSource>();
+        iaudioSource = GetComponent<AudioSource>();
         spawnManager = FindObjectOfType<SpawnManager>();
     }
 
@@ -42,61 +42,61 @@ public class Alien_boss_enemy : MonoBehaviour
 
     void Movement()
     {
-        Vector3 move = new Vector3(0, -_speed * Time.deltaTime, 0); // only Y axis
+        Vector3 move = new Vector3(0, -speed * Time.deltaTime, 0); // only Y axis
         transform.position += move; // absolute world movement
         if (transform.position.y <= 0)
-            _speed = 0;
+            speed = 0;
     }
 
     void Shoot()
     {
-        if (Time.time <= _canFire || _isDead) return;
-        _fireRate = Random.Range(3f, 5f);
-        _canFire = Time.time + _fireRate;
+        if (Time.time <= canFire || isDead) return;
+        fireRate = Random.Range(3f, 5f);
+        canFire = Time.time + fireRate;
         GameObject laserPrefab;
-        if (_shotCount % 2 == 0)
-            laserPrefab = _alienBossLaser;
+        if (shotCount % 2 == 0)
+            laserPrefab = alienBossLaser;
         else
-            laserPrefab = _chaser;
+            laserPrefab = chaser;
         GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
         foreach (var l in laser.GetComponentsInChildren<Laser>())
             l.AssignAlienBossLaser();
-        _shotCount++;
+        shotCount++;
     }
 
     public void Damage()
     {
-        _lives--;
+        lives--;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         Laser laser = other.GetComponent<Laser>();
-        if (other.CompareTag("Laser") && laser != null && !laser._isEnemyLaser && !laser._isAlienBossLaser)
+        if (other.CompareTag("Laser") && laser != null && laser.IsEnemyLaser() && laser.IsAlienBossLaser())
         {
             Destroy(other.gameObject);
-            _lives--;
-            _iaudioSource.PlayOneShot(_explosion);
+            lives--;
+            iaudioSource.PlayOneShot(explosion);
             Debug.Log("boss is damaged from player laser");
         }
 
-        if (other.CompareTag("Boss") && _isAlienBossLaser == true)
+        if (other.CompareTag("Boss") && isAlienBossLaser == true)
         {
             return;
         }
         if (other.tag == ("Player"))
         {
             Player player = other.GetComponent<Player>();
-            _lives--;
+            lives--;
             player.Damage();
-            _iaudioSource.PlayOneShot(_explosion);
+            iaudioSource.PlayOneShot(explosion);
             Debug.Log("boss got damage by player");
         }
-        if (_lives <= 0)
+        if (lives <= 0)
         {
             Destroy(gameObject);
-            _isDead = true;
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            isDead = true;
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             spawnManager.OnBossDestroyed();
         }
     }

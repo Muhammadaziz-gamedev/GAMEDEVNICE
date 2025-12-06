@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Boss_fire : MonoBehaviour
 {
-    [SerializeField] private float _speed = 5f;
+    [SerializeField] private float speed = 5f;
 
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
         if (transform.position.y < -6f)
         {
             Destroy(gameObject);

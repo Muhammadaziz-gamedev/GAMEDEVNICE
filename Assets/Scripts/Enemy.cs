@@ -9,16 +9,20 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed = 3f;
     private Player _player;
     private Animator _anim;
-    [SerializeField] private GameObject _explosionAnim;
-    [SerializeField] private AudioClip _destroyedClip;
-    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] 
+    private GameObject _explosionAnim;
+    [SerializeField] 
+    private AudioClip _destroyedClip;
+    [SerializeField] 
+    private GameObject _laserPrefab;
     private float _fireRate = 3.0f;
     private float _canFire = 1.0f;
     private float _amptitude = 7;
     private AudioSource _audioSource;
     private bool _isDead;
     private bool _isShieldActive;
-    [SerializeField] private GameObject _enemyShield;
+    [SerializeField] 
+    private GameObject _enemyShield;
     private float _waveOffset;
     private float _ramDistance = 5f;
     private float _normalSpeed = 3f;
@@ -134,9 +138,9 @@ public class Enemy : MonoBehaviour
             Laser laser = other.GetComponent<Laser>();
             if (laser == null)
                 return;
-            if (laser._isEnemyLaser)
+            if (laser.IsEnemyLaser())
                 return;
-            if (laser._playerBehind)
+            if (laser.isPlayerBehind())
                 return;
             if (_isShieldActive)
             {
@@ -190,7 +194,7 @@ public class Enemy : MonoBehaviour
         Laser[] lasers = FindObjectsOfType<Laser>();
         foreach (Laser laser in lasers)
         {
-            if (!laser._isEnemyLaser)
+            if (!laser.IsEnemyLaser())
             {
                 float distance = Vector3.Distance(transform.position, laser.transform.position);
                 if (distance <= _runDistance)
