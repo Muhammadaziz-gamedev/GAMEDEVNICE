@@ -15,22 +15,22 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private int enemiesPerWave = 1;
     [SerializeField]
-    private float timeBetweenEnemies = 3;
+    private float _timeBetweenEnemies = 3;
     [SerializeField]
-    private float timeBetweenWaves = 6f;
+    private float _timeBetweenWaves = 6f;
     [SerializeField]
     private GameObject[] powerUps;
     [SerializeField]
-    private float powerUpSpawnMin = 5f;
+    private float _powerUpSpawnMin = 5f;
     [SerializeField]
-    private float powerUpSpawnMax = 10f;
+    private float _powerUpSpawnMax = 10f;
     [SerializeField]
     private GameObject bossPrefab;
     [SerializeField]
     private Transform bossSpawnPoint;
     [SerializeField] private bool stopSpawning = false;
     [SerializeField] private bool bossDestroyed;
-    [SerializeField] public int waveCount = 0;
+    [SerializeField] public int _waveCount = 0;
     private int activeEnemies = 0;
     [SerializeField]
     private int[] weights = { 0, 6 };
@@ -51,9 +51,9 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         while (!stopSpawning)
         {
-            if (waveCount <= 4)
+            if (_waveCount <= 4)
             {
-                waveCount++;
+                _waveCount++;
                 for (int i = 0; i < enemiesPerWave; i++)
                 {
                     Vector3 spawnPos = new Vector3(Random.Range(-9f, 9f), 7.70f + Random.Range(-1f, 1f), 0f);
@@ -77,13 +77,13 @@ public class SpawnManager : MonoBehaviour
                 }
                 yield return new WaitUntil(() => activeEnemies <= 0);
                 enemiesPerWave++;
-                timeBetweenEnemies = Mathf.Max(0.5f, timeBetweenEnemies - 0.2f);
-                yield return new WaitForSeconds(timeBetweenWaves);
-                if (waveCount % 2 == 0)
+                _timeBetweenEnemies = Mathf.Max(0.5f, _timeBetweenEnemies - 0.2f);
+                yield return new WaitForSeconds(_timeBetweenWaves);
+                if (_waveCount % 2 == 0)
                 {
                     SpawnBoss();
                 }
-                if (waveCount == 5)
+                if (_waveCount == 5)
                 {
                     if (alienBossPrefab != null && bossSpawnPoint != null)
                     {
@@ -115,7 +115,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 7f, 0f);
             int randomIndex = Random.Range(0, powerUps.Length);
             Instantiate(powerUps[randomIndex], spawnPos, Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(powerUpSpawnMin, powerUpSpawnMax));
+            yield return new WaitForSeconds(Random.Range(_powerUpSpawnMin, _powerUpSpawnMax));
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour
 {
     [SerializeField]
-    private float rotateSpeed = 3.0f;
+    private float _rotateSpeed = 3.0f;
     [SerializeField]
     private GameObject explosionPrefab;
     private SpawnManager spawnManager;
@@ -15,7 +15,7 @@ public class Asteroid : MonoBehaviour
     }
     void Update()
     {
-        transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.forward * _rotateSpeed * Time.deltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D other)

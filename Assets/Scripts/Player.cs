@@ -7,14 +7,14 @@ public class Player : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField]
-    private float speed = 3.5f;
-    private float shift = 9.5f;
+    private float _speed = 3.5f;
+    private float _shift = 9.5f;
     [SerializeField] 
     private bool isSlow = false;
-    private float slowMultiplier;
-    private float normalSpeed;
+    private float _slowMultiplier;
+    private float normal_speed;
     [SerializeField]
-    private float speedMultiplier = 2f;
+    private float _speedMultiplier = 2f;
     [Header("Laser & PowerUps")]
     [SerializeField]
     private GameObject laserPrefab;
@@ -26,14 +26,14 @@ public class Player : MonoBehaviour
     private bool isUnusualLaserActive = false;
     private bool isTripleShotActive = false;
 
-    [Header("Lives & Shield")]
+    [Header("_lives & Shield")]
     [SerializeField]
-    private int lives = 3;
+    private int _lives = 3;
 
     [SerializeField]
     private bool shieldActive = false;
     [SerializeField]
-    private int livesShield = 3;
+    private int _livesShield = 3;
 
     [SerializeField]
     private GameObject shieldVisual;
@@ -54,25 +54,25 @@ public class Player : MonoBehaviour
     private AudioClip powerUpSound;
     private AudioSource audioSource;
 
-    [Header("Score & UI")]
+    [Header("_score & UI")]
     [SerializeField]
-    private int score = 0;
+    private int _score = 0;
 
     private UIManager uiManager;
     private SpawnManager spawnManager;
     [SerializeField]
-    private float fireRate = 0.4f;
-    private float canFire = -1f;
+    private float _fireRate = 0.4f;
+    private float _canFire = -1f;
     [SerializeField]
     private GameObject thruster;
-    private float shiftDuration = 5f;
-    private float canShift = -1f;
+    private float _shiftDuration = 5f;
+    private float can_shift = -1f;
     private float thrusterEnd = 0f;
-    private float cooldownShift = 5f;
-    private bool isShifting = false;
+    private float cooldown_shift = 5f;
+    private bool is_shifting = false;
     [SerializeField]
     private GameObject redShield, greenShield;
-    private int ammoCount = 15;
+    private int _ammoCount = 15;
     [SerializeField]
     private GameObject explosion;
     private Cam_shake _camera;
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         _camera = Camera.main.GetComponent<Cam_shake>();
-        normalSpeed = speed;
+        normal_speed = _speed;
         transform.position = Vector3.zero;
         spawnManager = GameObject.Find("SpawnManager")?.GetComponent<SpawnManager>();
         uiManager = GameObject.Find("Canvas")?.GetComponent<UIManager>();
@@ -95,11 +95,11 @@ public class Player : MonoBehaviour
     {
         HandleMovement();
 
-        if (Input.GetKey(KeyCode.Space) && Time.time > canFire)
+        if (Input.GetKey(KeyCode.Space) && Time.time > _canFire)
         {
             Shoot();
         }
-        CanShift();
+        Can_shift();
     }
 
     void HandleMovement()
@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
         if (minusPowerUp == false)
         {
             Vector3 direction = new Vector3(horizontal, vertical, 0);
-            transform.Translate(direction * normalSpeed * Time.deltaTime);
+            transform.Translate(direction * normal_speed * Time.deltaTime);
         }
         float clampedY = Mathf.Clamp(transform.position.y, -3.95f, 5.75f);
         transform.position = new Vector3(transform.position.x, clampedY, 0);
@@ -120,11 +120,11 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
-        if (ammoCount > 0)
+        if (_ammoCount > 0)
         {
-            canFire = Time.time + fireRate;
-            ammoCount--;
-            uiManager.UpdateAmmo(ammoCount);
+            _canFire = Time.time + _fireRate;
+            _ammoCount--;
+            uiManager.UpdateAmmo(_ammoCount);
             if (isProjectileLaser)
             {
                 laserPrefab.GetComponent<Laser>().AssignProjectileLaser();
@@ -153,19 +153,19 @@ public class Player : MonoBehaviour
         _camera.Shake(0.5f, 0.4f);
         if (shieldActive)
         {
-            livesShield--;
-            if (livesShield == 2)
+            _livesShield--;
+            if (_livesShield == 2)
             {
                 shieldVisual.SetActive(false);
                 greenShield.SetActive(true);
                 redShield.SetActive(false);
             }
-            else if (livesShield == 1)
+            else if (_livesShield == 1)
             {
                 greenShield.SetActive(false);
                 redShield.SetActive(true);
             }
-            else if (livesShield < 1)
+            else if (_livesShield < 1)
             {
                 redShield.SetActive(false);
                 greenShield.SetActive(false);
@@ -174,15 +174,15 @@ public class Player : MonoBehaviour
             }
             return;
         }
-        lives--;
+        _lives--;
         if (uiManager != null)
-            uiManager.UpdateLives(lives);
-        if (lives == 2) rightEngine.SetActive(true);
-        if (lives == 1) leftEngine.SetActive(true);
-        if (lives < 1)
+            uiManager.UpdateLives(_lives);
+        if (_lives == 2) rightEngine.SetActive(true);
+        if (_lives == 1) leftEngine.SetActive(true);
+        if (_lives < 1)
         {
             if (audioSource != null)
-                normalSpeed = 0;
+                normal_speed = 0;
             Instantiate(explosion, transform.position, Quaternion.identity);
             audioSource.PlayOneShot(explosionSound);
             spawnManager.OnPlayerDeath();
@@ -217,16 +217,16 @@ public class Player : MonoBehaviour
     public void AddAmmo(int ammo)
     {
         if (audioSource != null) audioSource.PlayOneShot(powerUpSound);
-        ammoCount = ammo + 15;
+        _ammoCount = ammo + 15;
     }
 
     public void AddHealth()
     {
         if (audioSource != null) audioSource.PlayOneShot(powerUpSound);
-        lives++;
+        _lives++;
         if (uiManager != null)
         {
-            uiManager.UpdateLives(lives);
+            uiManager.UpdateLives(_lives);
         }
     }
 
@@ -253,7 +253,7 @@ public class Player : MonoBehaviour
         if (audioSource != null)
             audioSource.PlayOneShot(powerUpSound);
 
-        speed *= speedMultiplier;
+        _speed *= _speedMultiplier;
         StartCoroutine(SpeedBoostRoutine());
     }
 
@@ -262,21 +262,21 @@ public class Player : MonoBehaviour
         if (audioSource != null)
             audioSource.PlayOneShot(powerUpSound);
         minusPowerUp = true;
-        normalSpeed = 0;
-        StartCoroutine(minuspowerupRoutine());
+        normal_speed = 0;
+        StartCoroutine(MinuspowerupRoutine());
     }
 
-    IEnumerator minuspowerupRoutine()
+    IEnumerator MinuspowerupRoutine()
     {
         yield return new WaitForSeconds(5f);
         minusPowerUp = false;
-        normalSpeed = speed;
+        normal_speed = _speed;
     }
 
     IEnumerator SpeedBoostRoutine()
     {
         yield return new WaitForSeconds(5f);
-        speed /= speedMultiplier;
+        _speed /= _speedMultiplier;
     }
 
     public void ShieldBoostActive()
@@ -292,33 +292,33 @@ public class Player : MonoBehaviour
 
     public void AddScore(int points)
     {
-        score += points;
+        _score += points;
         if (uiManager != null)
         {
-            uiManager.UpdateScore(score);
+            uiManager.UpdateScore(_score);
         }
         else
         {
-            Debug.LogError("UIManager is NULL! Cannot update score.");
+            Debug.LogError("UIManager is NULL! Cannot update _score.");
         }
 
     }
 
-    private void CanShift()
+    private void Can_shift()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > canShift)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > can_shift)
         {
             thruster.SetActive(true);
-            normalSpeed = shift;
-            thrusterEnd = Time.time + shiftDuration;
-            canShift = thrusterEnd + cooldownShift;
-            isShifting = true;
+            normal_speed = _shift;
+            thrusterEnd = Time.time + _shiftDuration;
+            can_shift = thrusterEnd + cooldown_shift;
+            is_shifting = true;
         }
-        if (isShifting && Time.time >= thrusterEnd)
+        if (is_shifting && Time.time >= thrusterEnd)
         {
             thruster.SetActive(false);
-            normalSpeed = speed;
-            isShifting = false;
+            normal_speed = _speed;
+            is_shifting = false;
         }
     }
 
@@ -326,7 +326,7 @@ public class Player : MonoBehaviour
     {
         if (isSlow == false) return;
         isSlow = true;
-        normalSpeed *= slowMultiplier;
+        normal_speed *= _slowMultiplier;
         StartCoroutine(Slowroutine());
     }
 
@@ -334,6 +334,6 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(3.0f);
         isSlow = false;
-        normalSpeed = speed;
+        normal_speed = _speed;
     }
 }
