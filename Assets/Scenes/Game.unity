@@ -1054,7 +1054,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902117422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.92, y: -7.14, z: 0}
+  m_LocalPosition: {x: -0.14, y: 0.11, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1079,23 +1079,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6afff2a2c31166a4a85922c9b208c27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3.5
+  _speed: 3.5
   isSlow: 0
-  speedMultiplier: 2
+  _speedMultiplier: 2
   laserPrefab: {fileID: 6001836302593163397, guid: 3cddc7e011fa32f47b39504d12c0303b, type: 3}
   tripleShotPrefab: {fileID: 2080553189399648156, guid: 61056aea4bdfd1148867acd4f7dcaade, type: 3}
   bruhPrefab: {fileID: 9005517236983712900, guid: 5ac8c761b23144855beb97cef62407f8, type: 3}
-  lives: 3
+  _lives: 3
   shieldActive: 0
-  livesShield: 3
+  _livesShield: 3
   shieldVisual: {fileID: 2089022041}
   leftEngine: {fileID: 1453695536}
   rightEngine: {fileID: 1265908378}
   laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   powerUpSound: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
-  score: 0
-  fireRate: 0.4
+  _score: 0
+  _fireRate: 0.4
   thruster: {fileID: 140831950}
   redShield: {fileID: 975880044}
   greenShield: {fileID: 1217049589}
@@ -2198,8 +2198,8 @@ MonoBehaviour:
   enemyPrefab: {fileID: 7928721507173593568, guid: 406c61ddd78962c48b40846b57ffffac, type: 3}
   enemyContainer: {fileID: 191792625}
   enemiesPerWave: 1
-  timeBetweenEnemies: 3
-  timeBetweenWaves: 6
+  _timeBetweenEnemies: 3
+  _timeBetweenWaves: 6
   powerUps:
   - {fileID: 7426687652315637923, guid: 5fc09deca64a6475ea37a6ffb6102244, type: 3}
   - {fileID: 1449809980228021583, guid: 18a715bc5ce8fb744b97852bef183191, type: 3}
@@ -2209,13 +2209,13 @@ MonoBehaviour:
   - {fileID: 6153695719533808876, guid: e5cbe3d923da64749814404ae0463a60, type: 3}
   - {fileID: 4284207413640557643, guid: c5ec3120b7412174e8764c9591fcb2a6, type: 3}
   - {fileID: 5688569293340172286, guid: f1f3c56d347474503acba9cbd81fea03, type: 3}
-  powerUpSpawnMin: 5
-  powerUpSpawnMax: 10
+  _powerUpSpawnMin: 5
+  _powerUpSpawnMax: 10
   bossPrefab: {fileID: 7672124139072472216, guid: 08d2c3b1480054c56a885d7996994295, type: 3}
   bossSpawnPoint: {fileID: 1465419940}
   stopSpawning: 0
   bossDestroyed: 0
-  waveCount: 0
+  _waveCount: 0
   weights: 0000000001000000020000000300000004000000050000000600000007000000
   alienBossPrefab: {fileID: 6767274023047437221, guid: 1a4531448bb3d485a8bfd0ef20df35ef, type: 3}
   alienBossPosition: {fileID: 1465419940}

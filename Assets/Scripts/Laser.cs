@@ -55,6 +55,10 @@ public class Laser : MonoBehaviour
             return;
         }
         MoveUp();
+        if(transform.position.y > 10f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public bool IsEnemyLaser()
